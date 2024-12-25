@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
-import { Divider, Modal, TextField } from '@mui/material';
+import { Alert, Divider, Modal, Snackbar, TextField } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
 import CloseIcon from '@mui/icons-material/Close';
@@ -27,8 +27,12 @@ const SignInModalComponent = (
         p: 4,
     };
 
+    const errorStyle = {
+        marginTop: 2,
+    };
+
     const buttonStyle = {
-        height: '38px', // Adjust button height
+        height: '40px', // Adjust button height
         borderRadius: '50px', // Rounded corners
         textTransform: 'none', // Prevent uppercase text
     };
@@ -36,6 +40,18 @@ const SignInModalComponent = (
     const inputStyle = {
         // height: '50px', // Match button height
         borderRadius: '12px', // Match button rounded corners
+    };
+
+    const [error, setError] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = () => {
+        if(email == "nf@gmail.com" && password == "123456") {
+            // redirect page here or validate data to be stored on localStorage
+        } else {
+            setError(!error);
+        }
     };
 
     return (
@@ -59,6 +75,7 @@ const SignInModalComponent = (
                             mb: 2,
                             '& .MuiOutlinedInput-root': { ...inputStyle },
                         }}
+                        onChange={(event) => setEmail(event.target.value)}
                     />
                     <TextField
                         fullWidth
@@ -69,6 +86,7 @@ const SignInModalComponent = (
                             mb: 3,
                             '& .MuiOutlinedInput-root': { ...inputStyle },
                         }}
+                        onChange={(event) => setPassword(event.target.value)}
                     />
                     <Button
                         variant="contained"
@@ -79,9 +97,15 @@ const SignInModalComponent = (
                         color: '#fff',
                         '&:hover': { bgcolor: '#115293' }, // Darker primary on hover
                         }}
+                        onClick={handleSubmit}
                     >
                         Connexion
                     </Button>
+                    {error && (
+                        <Box sx={{...errorStyle}}>
+                            <Alert severity="error">Email or Password are Incorrect !!! </Alert>
+                        </Box>
+                    )}
                     {/* Divider */}
                     <Divider sx={{ my: 3 }}>
                         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
