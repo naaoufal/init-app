@@ -49,19 +49,26 @@ const SignInModalComponent = (
     const handleSubmit = () => {
         if(email == "nf@gmail.com" && password == "123456") {
             // redirect page here or validate data to be stored on localStorage
+            setError(false);
         } else {
-            setError(!error);
+            setError(true);
         }
     };
 
     return (
-        <Modal open={open} onClose={handleClose} aria-labelledby="signin-signup-modal">
+        <Modal open={open} onClose={() => {
+            handleClose();
+            setError(false);
+        }} aria-labelledby="signin-signup-modal">
             <Box sx={modalStyle}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography id="signin-signup-modal" variant="h6">
                         Sign In
                     </Typography>
-                    <IconButton onClick={handleClose}>
+                    <IconButton onClick={() => {
+                        handleClose();
+                        setError(false);
+                    }}>
                     <CloseIcon />
                     </IconButton>
                 </Box>

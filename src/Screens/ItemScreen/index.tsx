@@ -1,29 +1,34 @@
-import React from 'react';
-import { Grid, Card, CardContent, Typography, CardMedia, Container } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Card, CardContent, Typography, CardMedia, Container, Button, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-const items = [
-    { id: 1, title: 'Item 1', description: 'Description for Item 1', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 2, title: 'Item 2', description: 'Description for Item 2', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 3, title: 'Item 3', description: 'Description for Item 3', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 4, title: 'Item 4', description: 'Description for Item 4', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 5, title: 'Item 5', description: 'Description for Item 5', imageUrl: 'https://via.placeholder.com/150' },
-    { id: 6, title: 'Item 6', description: 'Description for Item 6', imageUrl: 'https://via.placeholder.com/150' },
-];
+const items = Array.from({ length: 20 }, (_, index) => ({
+    id: index + 1,
+    title: `Item ${index + 1}`,
+    description: `Description for item ${index + 1}`,
+    imageUrl: 'https://via.placeholder.com/150'
+}));
 
 const ItemScreen = () => {
+
+    const [visibleCount, setVisibleCount] = useState(6);
+
+    const loadMoreItems = () => {
+        setVisibleCount((prev) => prev + 6);
+    };
+
     return (
-        <Container maxWidth="lg" sx={{ marginTop: 4 }}>
+        <Container maxWidth="lg" sx={{ marginTop: 10}}>
             <Typography
                 variant="h3"
                 align="center"  // This centers the title horizontally
                 gutterBottom  // Adds spacing below the title
-                sx={{ fontWeight: 'bold', marginBottom: 4 }}
+                sx={{ fontWeight: 'bold', marginBottom: 10 }}
             >
                 My Item Collection
             </Typography>
             <Grid container spacing={4}>
-                {items.map((item) => (
+                {items.slice(0, visibleCount).map((item) => (
                 <Grid item xs={12} sm={6} md={4} key={item.id}>
                     {/* <Link to={"/"}> */}
                         <Card>
@@ -46,6 +51,20 @@ const ItemScreen = () => {
                 </Grid>
                 ))}
             </Grid>
+            <Box sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 4, // Space between grid and button
+            }}>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={loadMoreItems}
+                sx={{ marginBottom: 2 }}
+            >
+                Load More
+            </Button>
+            </Box>
         </Container>
     );
 };
