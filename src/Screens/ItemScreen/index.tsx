@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Card, CardContent, Typography, CardMedia, Container, Button, Box } from '@mui/material';
+import { Grid, Card, CardContent, Typography, CardMedia, Container, Button, Box, CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const items = Array.from({ length: 20 }, (_, index) => ({
@@ -12,9 +12,14 @@ const items = Array.from({ length: 20 }, (_, index) => ({
 const ItemScreen = () => {
 
     const [visibleCount, setVisibleCount] = useState(6);
+    const [loading, setLoading] = useState(false);
 
     const loadMoreItems = () => {
-        setVisibleCount((prev) => prev + 6);
+        setLoading(true);
+        setTimeout(() => {
+            setVisibleCount((prev) => prev + 6);
+            setLoading(false);
+        }, 4000);
     };
 
     return (
@@ -56,14 +61,20 @@ const ItemScreen = () => {
                 justifyContent: "center",
                 marginTop: 4, // Space between grid and button
             }}>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={loadMoreItems}
-                sx={{ marginBottom: 2 }}
-            >
-                Load More
-            </Button>
+                {loading ?
+                    <Box sx={{ display: 'flex' }}>
+                        <CircularProgress />
+                    </Box>
+                    :
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={loadMoreItems}
+                        sx={{ marginBottom: 2 }}
+                    >
+                        Load More
+                    </Button>
+                }
             </Box>
         </Container>
     );
