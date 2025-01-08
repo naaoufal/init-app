@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, CardContent, CardMedia, Grid, Skeleton, Typography } from '@mui/material';
+import { Box, Button, ButtonBase, Card, CardContent, CardMedia, Grid, Skeleton, Snackbar, Typography } from '@mui/material';
+import { SnackbarOrigin } from '@mui/material/Snackbar';
 
+interface State extends SnackbarOrigin {
+    open: boolean;
+}  
 
 const items = [
     {
@@ -43,22 +47,24 @@ const items = [
 ];
 
 
-const CardItem = ({ imageSrc, title, description }: any) => (
+const CardItem = ({ imageSrc, title, description, onclick }: any) => (
     <Card sx={{ borderRadius: '12px', overflow: 'hidden', boxShadow: 3 }}>
-        <CardMedia
-            component="img"
-            height="200"
-            image={imageSrc}
-            alt={title}
-        />
-        <CardContent>
-            <Typography variant="h6" gutterBottom>
-                {title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-                {description}
-            </Typography>
-        </CardContent>
+        <ButtonBase onClick={onclick}>
+            <CardMedia
+                component="img"
+                height="200"
+                image={imageSrc}
+                alt={title}
+            />
+            <CardContent>
+                <Typography variant="h6" gutterBottom>
+                    {title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    {description}
+                </Typography>
+            </CardContent>
+        </ButtonBase>
     </Card>
 );
 
@@ -69,6 +75,22 @@ const OurServicesScreen = () => {
     useEffect(() => {
         setTimeout(() => setLoading(false), 3000);
     }, []);
+
+    const [st, setSt] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
+
+    const { vertical, horizontal, open } = st;
+
+    const handleClick = (newState: any) => () => {
+        setSt({ ...newState, open: true });
+    };
+
+    const handleClose = () => {
+        setSt({ ...st, open: false });
+    };
 
     return (
         <Box sx={{ marginTop: 16 }}>
@@ -107,10 +129,19 @@ const OurServicesScreen = () => {
                                     imageSrc={item.imageSrc}
                                     title={item?.title}
                                     description={item?.description}
+                                    onclick={handleClick({ vertical: 'top', horizontal: 'center' })}
                                 />
                             }
                         </Grid>
                     ))}
+                    <Snackbar
+                        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                        open={open}
+                        onClose={handleClose}
+                        message="I love snacks"
+                        autoHideDuration={5000}
+                        key={vertical + horizontal}
+                    />
                 </Grid>
             </Box>
         </Box>
