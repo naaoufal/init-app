@@ -25,7 +25,7 @@ const BarComponent = () => {
                     <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         {/* Logo on the left */}
                         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        LOGO
+                            LOGO
                         </Typography>
 
                         {/* Buttons on the right */}
