@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, Card, CardContent, Typography, CardMedia, Container, Button, Box, CircularProgress } from '@mui/material';
+import { Grid, Card, CardContent, Typography, CardMedia, Container, Button, Box, CircularProgress, Pagination } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const items = Array.from({ length: 20 }, (_, index) => ({
@@ -75,6 +75,14 @@ const ItemScreen = () => {
                         Load More
                     </Button>
                 }
+            </Box>
+            <Box sx={{
+                paddingTop: 2,
+                paddingBottom: 8,
+                display: "flex",
+                justifyContent: "center"
+            }}>
+                <Pagination count={10} variant="outlined" shape="rounded" />
             </Box>
         </Container>
     );
