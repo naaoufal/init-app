@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Card, CardContent, CardMedia, Grid, Skeleton, Typography } from '@mui/material';
 
 
 const items = [
@@ -64,6 +64,12 @@ const CardItem = ({ imageSrc, title, description }: any) => (
 
 const OurServicesScreen = () => {
 
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => setLoading(false), 3000);
+    }, []);
+
     return (
         <Box sx={{ marginTop: 16 }}>
             <Typography variant="h3" gutterBottom sx={{
@@ -92,11 +98,17 @@ const OurServicesScreen = () => {
                 }}>
                     {items.map((item) => (
                         <Grid item xs={10} sm={4}>
-                            <CardItem
-                                imageSrc={item.imageSrc}
-                                title={item?.title}
-                                description={item?.description}
-                            />
+                            {loading ? 
+                                <Skeleton variant="rectangular" width="100%">
+                                    <div style={{ paddingTop: '57%' }} />
+                                </Skeleton>
+                                :
+                                <CardItem
+                                    imageSrc={item.imageSrc}
+                                    title={item?.title}
+                                    description={item?.description}
+                                />
+                            }
                         </Grid>
                     ))}
                 </Grid>
